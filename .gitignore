@@ -1,0 +1,5 @@
+packer_cache
+*.box
+*.log
+output*
+http/gentoo

@@ -1,0 +1,132 @@
+{
+  "variables": {
+    "architecture": "",
+    "guest_os_type": "",
+    "iso_url": "",
+    "iso_checksum": "",
+    "iso_checksum_type": "",
+    "timezone": "UTC",
+    "country_sync_server": "",
+    "stage3file": "",
+    "search_fastest_mirror": "false",
+    "http_directory": "http/gentoo",
+    "locale": "en_US.utf8",
+    "libyaml_version": "0.1.4",
+    "ruby_version": "1.9.3-p448",
+    "puppet_version": "3.2.4",
+    "chef_version": "11.6.0",
+    "ssh_username": "root",
+    "ssh_password": "vagrant",
+    "shutdown_command": "/sbin/shutdown -hP now",
+    "chroot": "/mnt/gentoo"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "environment_vars": [
+        "ARCHITECTURE={{user `architecture`}}",
+        "LIBYAML_VERSION={{user `libyaml_version`}}",
+        "RUBY_VERSION={{user `ruby_version`}}",
+        "PUPPET_VERSION={{user `puppet_version`}}",
+        "CHEF_VERSION={{user `chef_version`}}",
+        "TIMEZONE={{user `timezone`}}",
+        "COUNTRY_SYNC_SERVER={{user `country_sync_server`}}",
+        "SEARCH_FASTEST_MIRROR={{user `search_fastest_mirror`}}",
+        "LOCALE={{user `locale`}}",
+        "CHROOT={{user `chroot`}}",
+        "PASSWORD={{user `ssh_password`}}"
+      ],
+      "scripts": [
+        "scripts/gentoo/settings.sh",
+        "scripts/gentoo/base.sh",
+        "scripts/gentoo/kernel.sh",
+        "scripts/gentoo/cron.sh",
+        "scripts/gentoo/syslog.sh",
+        "scripts/gentoo/nfs.sh",
+        "scripts/gentoo/grub.sh",
+        "scripts/gentoo/reboot.sh",
+        "scripts/gentoo/virtualbox.sh",
+        "scripts/gentoo/vagrant_prepare.sh",
+        "scripts/common/vagrant.sh",
+        "scripts/common/ruby.sh",
+        "scripts/common/chef.sh",
+        "scripts/common/puppet.sh",
+        "scripts/gentoo/cleanup.sh",
+        "scripts/common/zerodisk.sh"
+      ]
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox",
+      "name": "virtualbox-gentoo",
+      "boot_command": [
+        "gentoo-nofb<enter><wait10><wait10><wait10><enter><wait10><wait10>",
+        "ifconfig -a<enter><wait>",
+        "passwd<enter><wait>",
+        "{{user `ssh_password`}}<enter><wait>",
+        "{{user `ssh_password`}}<enter><wait>",
+        "/etc/init.d/sshd start<enter><wait>",
+        "cat <<DATAEOF > /etc/profile.d/stage3.sh<enter><wait>",
+        "#!/bin/bash -eux<enter>",
+        "export stage3file={{user `stage3file`}}<enter>",
+        "export stage3url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `stage3file`}}<enter>",
+        "DATAEOF<enter>"
+      ],
+      "guest_os_type": "{{user `guest_os_type`}}",
+      "http_directory": "{{user `http_directory`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "shutdown_command": "{{user `shutdown_command`}}",
+      "virtualbox_version_file": ".vbox_version",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1024"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ]
+      ]
+    },
+    {
+      "type": "vmware",
+      "name": "vmware-gentoo",
+      "boot_command": [
+        "gentoo-nofb<enter><wait10><wait10><wait10><enter><wait10><wait10>",
+        "ifconfig -a<enter><wait>",
+        "passwd<enter><wait>",
+        "{{user `ssh_password`}}<enter><wait>",
+        "{{user `ssh_password`}}<enter><wait>",
+        "/etc/init.d/sshd start<enter><wait>",
+        "cat <<DATAEOF > /etc/profile.d/stage3.sh<enter><wait>",
+        "#!/bin/bash -eux<enter>",
+        "export stage3file={{user `stage3file`}}<enter>",
+        "export stage3url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `stage3file`}}<enter>",
+        "DATAEOF<enter>"
+      ],
+      "guest_os_type": "{{user `guest_os_type`}}",
+      "http_directory": "{{user `http_directory`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ssh_password": "{{user `ssh_password`}}",
+      "shutdown_command": "{{user `shutdown_command`}}",
+      "vmx_data": {
+        "memsize": "1024",
+        "numvcpus": "2",
+        "cpuid.coresPerSocket": "1"
+      }
+    }
+  ],
+  "post-processors": ["vagrant"]
+}
