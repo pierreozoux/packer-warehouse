@@ -20,6 +20,10 @@ fi
 uri="http://distfiles.gentoo.org/releases/$build_arch/autobuilds"
 
 function dl_and_verify {
+  if [ ! -d "./http/gentoo" ]; then
+    mkdir ./http/gentoo
+  fi
+  
   file="./http/gentoo/${1##*/}"
 
   sha512=`wget -q $uri/$1.DIGESTS -O - | grep ${1##*/} | head -n 1 | cut -f 1 -d " "`
