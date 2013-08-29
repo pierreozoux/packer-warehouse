@@ -41,18 +41,22 @@ function dl_and_verify {
     exit 1
   fi
 
-  echo $file
+  echo $file " " $sha512
 }
 
 iso=`curl -s $uri/latest-install-$build_arch-minimal.txt | grep -v "^#"`
 
-iso_file=$(dl_and_verify $iso)
+iso_dl=$(dl_and_verify $iso)
+iso_file=$(echo $iso_dl | cut -d" " -f1)
+iso_sha512=$(echo $iso_dl | cut -d" " -f2)
+
 echo "Iso file downloaded and verified"
-iso_md5=`md5sum $iso_file | cut -f1 -d" "`
 
 stage3=`curl -s $uri/latest-stage3-$build_proc.txt | grep -v "^#"`
 
-stage3_file=$(dl_and_verify $stage3)
+stage3_dl=$(dl_and_verify $stage3)
+stage3_file=$(echo $stage3_dl | cut -d" " -f1)
+
 echo "Stage3 file downloaded and verified"
 
 echo "Please tell the country SYNC server (ex: .fr OR .pt OR .us):"
@@ -64,8 +68,8 @@ cat <<DATAEOF > "var-files/gentoo/latest.json"
     "architecture": "$architecture",
     "guest_os_type": "$guest_os_type",
     "iso_url": "$iso_file",
-    "iso_checksum": "$iso_md5",
-    "iso_checksum_type": "md5",
+    "iso_checksum": "$iso_sha512",
+    "iso_checksum_type": "sha512",
     "timezone": "UTC",
     "country_sync_server": "$country_sync_server",
     "stage3file": "${stage3_file##*/}"
