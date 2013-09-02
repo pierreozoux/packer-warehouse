@@ -13,4 +13,4 @@ EOF
 DATAEOF
 
 /sbin/reboot
-sleep 60
+ps aux | grep sshd | grep -v grep | awk '{print $2}' | xargs kill
