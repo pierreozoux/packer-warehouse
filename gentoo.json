@@ -8,6 +8,7 @@
     "timezone": "UTC",
     "country_sync_server": "",
     "stage3file": "",
+    "stage3dest_path": "/tmp/stage3.tar.bz2",
     "search_fastest_mirror": "false",
     "http_directory": "http/gentoo",
     "locale": "en_US.utf8",
@@ -22,6 +23,11 @@
   },
   "provisioners": [
     {
+      "type": "file",
+      "source": "http/gentoo/{{user `stage3file`}}",
+      "destination": "{{user `stage3dest_path`}}"
+    },
+    {
       "type": "shell",
       "environment_vars": [
         "ARCHITECTURE={{user `architecture`}}",
@@ -34,7 +40,8 @@
         "SEARCH_FASTEST_MIRROR={{user `search_fastest_mirror`}}",
         "LOCALE={{user `locale`}}",
         "CHROOT={{user `chroot`}}",
-        "PASSWORD={{user `ssh_password`}}"
+        "PASSWORD={{user `ssh_password`}}",
+        "STAGE3DEST_PATH={{user `stage3dest_path`}}"
       ],
       "scripts": [
         "scripts/gentoo/settings.sh",
@@ -65,15 +72,9 @@
         "passwd<enter><wait>",
         "{{user `ssh_password`}}<enter><wait>",
         "{{user `ssh_password`}}<enter><wait>",
-        "/etc/init.d/sshd start<enter><wait>",
-        "cat <<DATAEOF > /etc/profile.d/stage3.sh<enter><wait>",
-        "#!/bin/bash -eux<enter>",
-        "export stage3file={{user `stage3file`}}<enter>",
-        "export stage3url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `stage3file`}}<enter>",
-        "DATAEOF<enter>"
+        "/etc/init.d/sshd start<enter><wait>"
       ],
       "guest_os_type": "{{user `guest_os_type`}}",
-      "http_directory": "{{user `http_directory`}}",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
@@ -104,15 +105,9 @@
         "passwd<enter><wait>",
         "{{user `ssh_password`}}<enter><wait>",
         "{{user `ssh_password`}}<enter><wait>",
-        "/etc/init.d/sshd start<enter><wait>",
-        "cat <<DATAEOF > /etc/profile.d/stage3.sh<enter><wait>",
-        "#!/bin/bash -eux<enter>",
-        "export stage3file={{user `stage3file`}}<enter>",
-        "export stage3url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `stage3file`}}<enter>",
-        "DATAEOF<enter>"
+        "/etc/init.d/sshd start<enter><wait>"
       ],
       "guest_os_type": "{{user `guest_os_type`}}",
-      "http_directory": "{{user `http_directory`}}",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",

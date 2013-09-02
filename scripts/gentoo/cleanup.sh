@@ -3,7 +3,6 @@
 #remove tmp files
 rm /root/kernel_version
 rm /etc/profile.d/settings.sh
-rm /etc/profile.d/stage3.sh
 
 # fix a weird issue with sshd not starting
 # http://www.linuxquestions.org/questions/linux-networking-3/sshd-fatal-daemon-failed-no-such-device-279664/

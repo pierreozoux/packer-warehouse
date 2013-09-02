@@ -20,9 +20,7 @@ mkfs.ext4 /dev/sda4
 mount /dev/sda4 "$CHROOT" && cd "$CHROOT" && mkdir boot && mount /dev/sda1 boot
 
 # download stage 3, unpack it, delete the stage3 archive file
-echo "Downloading $stage3url ..."
-wget -nv --tries=5 "$stage3url"
-tar xpf "$stage3file" && rm "$stage3file"
+tar xpf "$STAGE3DEST_PATH" && rm "$STAGE3DEST_PATH"
 
 # prepeare chroot, update env
 mount --bind /proc "$CHROOT/proc"
