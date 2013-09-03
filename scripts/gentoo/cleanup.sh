@@ -19,10 +19,9 @@ eclean -d distfiles
 rm /tmp/*
 rm -rf /var/log/*
 rm -rf /var/tmp/*
-rm -rf /root/.gem
 
 #clean root
-rm /root/*
+rm -rf /root/*
 
 # fill all swap space with zeros and recreate swap
 swapoff /dev/sda3
