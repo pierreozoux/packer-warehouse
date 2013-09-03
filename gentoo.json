@@ -18,7 +18,6 @@
     "chef_version": "11.6.0",
     "ssh_username": "root",
     "ssh_password": "vagrant",
-    "shutdown_command": "/sbin/shutdown -hP now",
     "chroot": "/mnt/gentoo"
   },
   "provisioners": [
@@ -80,7 +79,6 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "ssh_username": "{{user `ssh_username`}}",
       "ssh_password": "{{user `ssh_password`}}",
-      "shutdown_command": "{{user `shutdown_command`}}",
       "virtualbox_version_file": ".vbox_version",
       "vboxmanage": [
         [
@@ -113,7 +111,6 @@
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "ssh_username": "{{user `ssh_username`}}",
       "ssh_password": "{{user `ssh_password`}}",
-      "shutdown_command": "{{user `shutdown_command`}}",
       "vmx_data": {
         "memsize": "1024",
         "numvcpus": "2",
