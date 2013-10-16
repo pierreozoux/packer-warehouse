@@ -1,40 +1,4 @@
 {
-  "variables": {
-    "guest_os_type": "Ubuntu_64",
-    "iso_url": "http://releases.ubuntu.com/13.04/ubuntu-13.04-server-amd64.iso",
-    "iso_checksum": "7d335ca541fc4945b674459cde7bffb9",
-    "iso_checksum_type": "md5",
-    "libyaml_version": "0.1.4",
-    "ruby_version": "1.9.3-p448",
-    "puppet_version": "3.2.4",
-    "chef_version": "11.6.0",
-    "http_directory": "http/ubuntu",
-    "ssh_username": "vagrant",
-    "ssh_password": "vagrant"
-  },
-  "provisioners": [
-    {
-      "type": "shell",
-      "environment_vars": [
-        "LIBYAML_VERSION={{user `libyaml_version`}}",
-        "RUBY_VERSION={{user `ruby_version`}}",
-        "PUPPET_VERSION={{user `puppet_version`}}",
-        "CHEF_VERSION={{user `chef_version`}}"
-      ],
-      "execute_command": "echo '{{user `ssh_password`}}' | {{ .Vars }} sudo -S -E sh {{ .Path }}",
-      "scripts": [
-        "scripts/ubuntu/base.sh",
-        "scripts/common/sshd.sh",
-        "scripts/common/virt-tools.sh",
-        "scripts/common/vagrant.sh",
-        "scripts/common/ruby.sh",
-        "scripts/common/chef.sh",
-        "scripts/common/puppet.sh",
-        "scripts/ubuntu/cleanup.sh",
-        "scripts/common/zerodisk.sh"
-      ]
-    }
-  ],
   "builders": [
     {
       "type": "virtualbox",
@@ -96,6 +60,42 @@
         "numvcpus": "1",
         "cpuid.coresPerSocket": "1"
       }
+    }
+  ],
+  "variables": {
+    "guest_os_type": "Ubuntu_64",
+    "iso_url": "http://releases.ubuntu.com/13.04/ubuntu-13.04-server-amd64.iso",
+    "iso_checksum": "7d335ca541fc4945b674459cde7bffb9",
+    "iso_checksum_type": "md5",
+    "libyaml_version": "0.1.4",
+    "ruby_version": "1.9.3-p448",
+    "puppet_version": "3.2.4",
+    "chef_version": "11.6.0",
+    "http_directory": "http/ubuntu",
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant"
+  },
+  "provisioners": [
+    {
+      "type": "shell",
+      "environment_vars": [
+        "LIBYAML_VERSION={{user `libyaml_version`}}",
+        "RUBY_VERSION={{user `ruby_version`}}",
+        "PUPPET_VERSION={{user `puppet_version`}}",
+        "CHEF_VERSION={{user `chef_version`}}"
+      ],
+      "execute_command": "echo '{{user `ssh_password`}}' | {{ .Vars }} sudo -S -E sh {{ .Path }}",
+      "scripts": [
+        "scripts/ubuntu/base.sh",
+        "scripts/common/sshd.sh",
+        "scripts/common/virt-tools.sh",
+        "scripts/common/vagrant.sh",
+        "scripts/common/ruby.sh",
+        "scripts/common/chef.sh",
+        "scripts/common/puppet.sh",
+        "scripts/ubuntu/cleanup.sh",
+        "scripts/common/zerodisk.sh"
+      ]
     }
   ],
   "post-processors": ["vagrant"]
