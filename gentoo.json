@@ -27,6 +27,11 @@
       "destination": "{{user `stage3dest_path`}}"
     },
     {
+      "type": "file",
+      "source": "scripts/gentoo/kernel.config",
+      "destination": "/tmp/kernel.config"
+    },
+    {
       "type": "shell",
       "environment_vars": [
         "ARCHITECTURE={{user `architecture`}}",
