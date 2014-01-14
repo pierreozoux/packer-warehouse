@@ -1,4 +1,4 @@
-{
+{ "description": "please read the readme/gentoo.md before running this template.",
   "variables": {
     "architecture": null,
     "guest_os_type": null,
