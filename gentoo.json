@@ -64,7 +64,7 @@
   ],
   "builders": [
     {
-      "type": "virtualbox",
+      "type": "virtualbox-iso",
       "name": "virtualbox-gentoo",
       "boot_command": [
         "gentoo-nofb<enter><wait10><wait10><wait10><enter><wait10><wait10>",
