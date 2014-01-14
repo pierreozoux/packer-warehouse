@@ -94,28 +94,6 @@
           "2"
         ]
       ]
-    },
-    {
-      "type": "vmware",
-      "name": "vmware-gentoo",
-      "boot_command": [
-        "gentoo-nofb<enter><wait10><wait10><wait10><enter><wait10><wait10>",
-        "passwd<enter><wait>",
-        "{{user `ssh_password`}}<enter><wait>",
-        "{{user `ssh_password`}}<enter><wait>",
-        "/etc/init.d/sshd start<enter><wait>"
-      ],
-      "guest_os_type": "{{user `guest_os_type`}}",
-      "iso_url": "{{user `iso_url`}}",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "ssh_username": "{{user `ssh_username`}}",
-      "ssh_password": "{{user `ssh_password`}}",
-      "vmx_data": {
-        "memsize": "1024",
-        "numvcpus": "2",
-        "cpuid.coresPerSocket": "1"
-      }
     }
   ],
   "post-processors": ["vagrant"]
