@@ -12,7 +12,7 @@ dev-util/kbuild ~$build_arch
 DATAEOF
 
 # Kernel Version
-chroot "$CHROOT" /bin/bash <<DATAEOF
+chroot "$CHROOT" /bin/bash -eux<<DATAEOF
 emerge --color n --nospinner --search gentoo-sources | grep 'Latest version available' | cut -d ':' -f 2 | tr -d ' ' > /root/kernel_version
 DATAEOF
 
@@ -21,7 +21,7 @@ kernel_version=$(cat $CHROOT/root/kernel_version)
 echo "export kernel_version=$kernel_version" >> /etc/profile.d/settings.sh
 
 # get, configure, compile and install the kernel and modules
-chroot "$CHROOT" /bin/bash <<DATAEOF
+chroot "$CHROOT" /bin/bash -eux<<DATAEOF
 emerge --nospinner =sys-kernel/gentoo-sources-$kernel_version sys-kernel/genkernel gentoolkit
 
 cd /usr/src/linux

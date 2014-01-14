@@ -4,7 +4,7 @@ echo "export vbox_version=$vbox_version" >> /etc/profile.d/settings.sh
 
 cp /etc/profile.d/* $CHROOT/etc/profile.d/
 
-chroot $CHROOT /bin/bash <<DATAEOF
+chroot $CHROOT /bin/bash -eux<<DATAEOF
 # set passwords (for after reboot)
 passwd<<EOF
 $PASSWORD

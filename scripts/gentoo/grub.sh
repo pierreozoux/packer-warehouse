@@ -13,7 +13,7 @@ chroot "$CHROOT" emerge --nospinner grub
 chroot "$CHROOT" sed -i "s/GRUB_TIMEOUT=.*/GRUB_TIMEOUT=1/g" /etc/default/grub
 
 # make the disk bootable
-chroot "$CHROOT" /bin/bash <<DATAEOF
+chroot "$CHROOT" /bin/bash -eux<<DATAEOF
 source /etc/profile && \
 env-update && \
 grep -v rootfs /proc/mounts > /etc/mtab && \

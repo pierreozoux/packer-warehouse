@@ -32,12 +32,12 @@ date -u > "$CHROOT/etc/vagrant_box_build_time"
 chroot "$CHROOT" env-update
 
 # disable systemd device naming
-chroot "$CHROOT" /bin/bash <<DATAEOF
+chroot "$CHROOT" /bin/bash -eux<<DATAEOF
 ln -s /dev/null /etc/udev/rules.d/80-net-name-slot.rules
 DATAEOF
 
 # bring up eth0 and sshd on boot
-chroot "$CHROOT" /bin/bash <<DATAEOF
+chroot "$CHROOT" /bin/bash -eux<<DATAEOF
 cd /etc/conf.d
 echo 'config_eth0=( "dhcp" )' >> net
 ln -s net.lo /etc/init.d/net.eth0
@@ -78,14 +78,14 @@ DATAEOF
 chroot "$CHROOT" ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
 
 # set locale
-chroot "$CHROOT" /bin/bash <<DATAEOF
+chroot "$CHROOT" /bin/bash -eux<<DATAEOF
 echo LANG=\"$LOCALE\" > /etc/env.d/02locale
 env-update && source /etc/profile
 DATAEOF
 
 # update portage tree to most current state
 # emerge-webrsync is recommended by Gentoo for first sync
-chroot "$CHROOT" /bin/bash <<DATAEOF
+chroot "$CHROOT" /bin/bash -eux<<DATAEOF
 # update the country where to sync
 echo SYNC=\"rsync://rsync$COUNTRY_SYNC_SERVER.gentoo.org/gentoo-portage\" >> /etc/portage/make.conf
 
