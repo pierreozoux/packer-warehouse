@@ -86,8 +86,8 @@ DATAEOF
 # update portage tree to most current state
 # emerge-webrsync is recommended by Gentoo for first sync
 chroot "$CHROOT" /bin/bash -eux<<DATAEOF
-# update the country where to sync
-echo SYNC=\"rsync://rsync$COUNTRY_SYNC_SERVER.gentoo.org/gentoo-portage\" >> /etc/portage/make.conf
+# update the SYNC server
+echo SYNC=\"rsync://$SYNC_SERVER\" >> /etc/portage/make.conf
 
 echo "updating Portage Tree..."
 emerge --sync --quiet

@@ -58,11 +58,17 @@ stage3_dl=$(dl_and_verify $stage3)
 stage3_file=$(echo $stage3_dl | cut -d" " -f1)
 
 echo "Stage3 file downloaded and verified"
-
-echo "Please tell the country SYNC server (ex: .fr OR .pt OR .us):"
+echo ""
+echo "Please give your SYNC server"
+echo "ex: rsync.fr.gentoo.org/gentoo-portage OR example.org/gentoo-rsync"
 echo "If you don't know, leave it blank"
-read country_sync_server
+read SYNC_SERVER
 
+if [ -z "$SYNC_SERVER" ]
+then
+  SYNC_SERVER="rsync.gentoo.org/gentoo-portage"
+fi
+  
 cat <<DATAEOF > "var-files/gentoo/latest.json"
 {
     "architecture": "$architecture",
@@ -71,7 +77,7 @@ cat <<DATAEOF > "var-files/gentoo/latest.json"
     "iso_checksum": "$iso_sha512",
     "iso_checksum_type": "sha512",
     "timezone": "UTC",
-    "country_sync_server": "$country_sync_server",
+    "sync_server": "$SYNC_SERVER",
     "stage3file": "${stage3_file##*/}"
 }
 DATAEOF
