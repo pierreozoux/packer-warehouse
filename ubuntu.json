@@ -35,31 +35,6 @@
           "1"
         ]
       ]
-    },
-    {
-      "type": "vmware",
-      "name": "vmware-gentoo",
-      "boot_command": [
-        "<esc><esc><enter><wait>",
-        "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg <wait>",
-        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us <wait>",
-        "hostname={{ .Name }} <wait>",
-        "fb=false debconf/frontend=noninteractive <wait>",
-        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false <wait>",
-        "initrd=/install/initrd.gz -- <enter><wait>"
-      ],
-      "guest_os_type": "{{user `guest_os_type`}}",
-      "http_directory": "{{user `http_directory`}}",
-      "iso_url": "{{user `iso_url`}}",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "ssh_username": "{{user `ssh_username`}}",
-      "ssh_password": "{{user `ssh_password`}}",
-      "vmx_data": {
-        "memsize": "512",
-        "numvcpus": "1",
-        "cpuid.coresPerSocket": "1"
-      }
     }
   ],
   "variables": {
