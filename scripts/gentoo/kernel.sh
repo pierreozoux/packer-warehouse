@@ -27,7 +27,7 @@ make defconfig
 cat /tmp/kernel.config >> ./.config
 
 # build and install kernel, using the config created above
-genkernel --install --symlink --oldconfig --bootloader=grub all
+genkernel --install --symlink --oldconfig all
 
 # keep track of the kernel version
 cp arch/x86/boot/bzImage /boot/kernel-$kernel_version-gentoo
